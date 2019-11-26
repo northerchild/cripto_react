@@ -3,6 +3,9 @@ import axios from 'axios';
 import Criptomoneda from './Criptomoneda';
 function Formulario(){
     const [criptomonedas, guardarCriptomonedas] = useState([]);
+    const [monedaCotizar, guardarMonedaCotizar] = useState('');
+    const [criptoCotizar, guardarCriptoCotizar] = useState('');
+    const [error, guardarError] = useState(false);
     useEffect(()=>{
         const consultarApi = async()=>{
             const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=15&tsym=USD'
@@ -16,7 +19,7 @@ function Formulario(){
         <form action="">
             <div className="row">
                 <label>Elige tu moneda</label>
-                <select className="u-full-width">
+                <select className="u-full-width" onChange={e => guardarMonedaCotizar(e.target.value)}>
                     <option value="">Elige tu moneda</option>
                     <option value="USD">Dolar Estadounidense</option>
                     <option value="MXN">Peso Mexicano</option>
@@ -26,12 +29,14 @@ function Formulario(){
             </div>
             <div className="row">
                 <label>Elige tu criptomoneda</label>
-                <select className="u-full-width">
+                <select className="u-full-width" onChange={e => guardarCriptoCotizar(e.target.value)}>
+                    <option value="">Elige tu criptomoneda</option>
                    {criptomonedas.map(criptomoneda=>(
                        <Criptomoneda 
                        key = {criptomoneda.CoinInfo.Id}
                        criptomoneda={criptomoneda}/>
                    ))}
+              
                 </select>
             </div>
         </form>
