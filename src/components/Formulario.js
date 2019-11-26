@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import axios from 'axios';
 import Criptomoneda from './Criptomoneda';
+import Error from './Error';
 function Formulario(){
     const [criptomonedas, guardarCriptomonedas] = useState([]);
     const [monedaCotizar, guardarMonedaCotizar] = useState('');
@@ -15,8 +16,23 @@ function Formulario(){
         consultarApi();
 
     },[]);
+
+    //Validar que el usuario llene ambos campos
+    const cotizarMoneda = (e)=>{
+        e.preventDefault();
+        //validar  si los campos están llenos
+        if(monedaCotizar === '' || criptoCotizar === ''){
+            guardarError(true);
+            return;
+        }
+        guardarError(false);
+    }
+
+    const componente = (error) ? <Error mensaje="Ambos campos son obligatorios" /> : null;
+
     return(
-        <form action="">
+        <form onSubmit={cotizarMoneda}>
+            {componente}
             <div className="row">
                 <label>Elige tu moneda</label>
                 <select className="u-full-width" onChange={e => guardarMonedaCotizar(e.target.value)}>
@@ -39,6 +55,7 @@ function Formulario(){
               
                 </select>
             </div>
+            <input type="submit" className="button-primary u-full-width" value="Calcular"/>
         </form>
     )
 }
