@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import axios from 'axios';
 import Criptomoneda from './Criptomoneda';
 import Error from './Error';
-function Formulario(){
+function Formulario({guardarMoneda, guardarCriptomoneda}){
     const [criptomonedas, guardarCriptomonedas] = useState([]);
     const [monedaCotizar, guardarMonedaCotizar] = useState('');
     const [criptoCotizar, guardarCriptoCotizar] = useState('');
@@ -26,6 +26,8 @@ function Formulario(){
             return;
         }
         guardarError(false);
+        guardarMoneda(monedaCotizar);
+        guardarCriptomoneda(criptoCotizar);
     }
 
     const componente = (error) ? <Error mensaje="Ambos campos son obligatorios" /> : null;
